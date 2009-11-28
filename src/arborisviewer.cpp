@@ -19,7 +19,6 @@
 //#include <cstdlib>
 #include <ctime>
 #include <string>
-#include <boost/tr1/memory.hpp>
 #include "avreaderh5.h"
 #include "scenefactory.h"
 #include <boost/program_options.hpp>
@@ -31,34 +30,37 @@ namespace po = boost::program_options;
 class MarkerCallback : public osg::NodeCallback
 {
 private:
-    std::tr1::shared_ptr<LastReader> reader;
+    LastReader *reader;
     SceneTransforms transforms;
 public:
-    MarkerCallback(std::tr1::shared_ptr<LastReader> _reader,
+    MarkerCallback(LastReader *_reader,
                    SceneTransforms _transforms);
 
     virtual void operator()(osg::Node* node, osg::NodeVisitor*)
     {
         FrameData fData = reader->getLatestFrame();
-        for (std::map< std::string, Matrix > ::const_iterator im = fData.matrices.begin(); im != fData.matrices.end(); im++) {
+        for (std::map< std::string, Matrix > ::const_iterator im = fData.matrices.begin();
+             im != fData.matrices.end(); im++) {
             osg::Matrix mat(im->second[0], im->second[4], im->second[8], im->second[12],
                             im->second[1], im->second[5], im->second[9], im->second[13],
                             im->second[2], im->second[6], im->second[10], im->second[14],
                             im->second[3], im->second[7], im->second[11], im->second[15]);
             transforms.matrices[im->first]->setMatrix(mat);
         }
-        for (std::map< std::string, Translate > ::const_iterator it = fData.translates.begin(); it != fData.translates.end(); it++) {
+        for (std::map< std::string, Translate > ::const_iterator it = fData.translates.begin();
+                it != fData.translates.end(); it++) {
             osg::Matrix mat;
             mat.setTrans(it->second[0], it->second[1], it->second[2]);
             transforms.translates[it->first]->setMatrix(mat);
         }
-        for (std::map< std::string, Wrench > ::const_iterator iw = fData.wrenches.begin(); iw != fData.wrenches.end(); iw++) {
+        for (std::map< std::string, Wrench > ::const_iterator iw = fData.wrenches.begin();
+                iw != fData.wrenches.end(); iw++) {
             //TODO
         }
     }
 };
 
-MarkerCallback::MarkerCallback(std::tr1::shared_ptr<LastReader> _reader,
+MarkerCallback::MarkerCallback(LastReader *_reader,
                                SceneTransforms _transforms) :
         reader(_reader),
         transforms(_transforms) {};
@@ -88,11 +90,9 @@ int main(int argc, char **argv )
     {
         exit(1);
     }
-    H5LastReader _reader(argv[1], argv[2]);
-    std::tr1::shared_ptr<LastReader> reader(&_reader); //TODO
-
+    H5LastReader reader(argv[1], argv[2]);
     SceneFactory factory;
-    SceneTransforms transforms = factory.initScene(reader->getLatestFrame());
+    SceneTransforms transforms = factory.initScene(reader.getLatestFrame());
 
     // set the scene to render
     osgViewer::Viewer viewer;
@@ -107,20 +107,23 @@ int main(int argc, char **argv )
     std::cerr << "before loop\n";
     while (!viewer.done())
     {
-        FrameData fData = reader->getLatestFrame();
-        for (std::map< std::string, Matrix > ::const_iterator im = fData.matrices.begin(); im != fData.matrices.end(); im++) {
+        FrameData fData = reader.getLatestFrame();
+        for (std::map< std::string, Matrix > ::const_iterator im = fData.matrices.begin();
+             im != fData.matrices.end(); im++) {
             osg::Matrix mat(im->second[0], im->second[4], im->second[8], im->second[12],
                             im->second[1], im->second[5], im->second[9], im->second[13],
                             im->second[2], im->second[6], im->second[10], im->second[14],
                             im->second[3], im->second[7], im->second[11], im->second[15]);
             transforms.matrices[im->first]->setMatrix(mat);
         }
-        for (std::map< std::string, Translate > ::const_iterator it = fData.translates.begin(); it != fData.translates.end(); it++) {
+        for (std::map< std::string, Translate > ::const_iterator it = fData.translates.begin();
+             it != fData.translates.end(); it++) {
             osg::Matrix mat;
             mat.setTrans(it->second[0], it->second[1], it->second[2]);
             transforms.translates[it->first]->setMatrix(mat);
         }
-        for (std::map< std::string, Wrench > ::const_iterator iw = fData.wrenches.begin(); iw != fData.wrenches.end(); iw++) {
+        for (std::map< std::string, Wrench > ::const_iterator iw = fData.wrenches.begin();
+             iw != fData.wrenches.end(); iw++) {
             //TODO
         }
 	viewer.frame();

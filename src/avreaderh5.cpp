@@ -65,7 +65,7 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
                     matrices[names[i]] = dSet;
                 else {
                     if (logging::warning)
-                        std::cerr << "Skipping dataset \"" <<  names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",4,4).\n";
+                        std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",4,4).\n";
                     dSet.close();}}
             else if (type == "translate"){
                 H5::DataSpace dSpace = dSet.getSpace();
@@ -79,7 +79,7 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
                     translates[names[i]] = dSet;
                 else {
                     if (logging::warning)
-                        std::cerr << "Skipping dataset \"" <<  names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",3).\n";
+                        std::cerr << "Skipping dataset \"" << names[i] << "\" which has wrong dimensions. I was expecting (" << nSteps << ",3).\n";
                     dSet.close();}}
             else if (type == "wrench") {
                 H5::DataSpace dSpace = dSet.getSpace();
@@ -93,7 +93,7 @@ H5RandomReader::H5RandomReader(const std::string fileName, const std::string gro
                     wrenches[names[i]] = dSet;
                 else {
                     if (logging::warning)
-                        std::cerr << "Skipping dataset \"" <<  names[i] << "\" which as wrong dimensions. I was expecting (" << nSteps << ",6).\n";
+                        std::cerr << "Skipping dataset \"" << names[i] << "\" which as wrong dimensions. I was expecting (" << nSteps << ",6).\n";
                     dSet.close();}}
             else {
                 if (logging::warning)
