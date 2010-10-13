@@ -114,4 +114,4 @@ We use...
 .. _Boost.Program_options: 
     http://www.boost.org/doc/libs/1_40_0/doc/html/program_options.html
 .. _dænim: http://github.com/sbarthelemy/daenim
-.. _arboris: http://github.com/sbarthelemy/arboris-pyhton
+.. _arboris: http://github.com/sbarthelemy/arboris-python
