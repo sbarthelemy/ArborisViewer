@@ -3,8 +3,14 @@ ArborisViewer
 =============
 
 ArborisViewer is 3d viewer based on OpenSceneGraph (OSG_). It reads
-trajectories from HDF5_ files and animate the scene accordingly.
+trajectories from HDF5_ files and animates the scene accordingly.
 
+
+Development status
+==================
+
+The project is currently ABANDONED in favor of dænim_. If you came here
+looking for the viewer to use with arboris_, it is dænim_.
 
 Install & Test
 ==============
@@ -107,3 +113,5 @@ We use...
 .. _Doxygen: http://www.stack.nl/~dimitri/doxygen/index.html
 .. _Boost.Program_options: 
     http://www.boost.org/doc/libs/1_40_0/doc/html/program_options.html
+.. _dænim: http://github.com/sbarthelemy/daenim
+.. _arboris: http://github.com/sbarthelemy/arboris-pyhton
